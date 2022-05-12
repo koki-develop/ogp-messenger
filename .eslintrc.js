@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:import/recommended",
     "@remix-run/eslint-config",
     "prettier",
   ],
@@ -18,7 +19,25 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
-  rules: {},
+  rules: {
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "object",
+          "type",
+          "index",
+        ],
+        pathGroupsExcludedImportTypes: ["builtin"],
+        alphabetize: { order: "asc" },
+        pathGroups: [],
+      },
+    ],
+  },
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
