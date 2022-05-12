@@ -1,4 +1,3 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -8,6 +7,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "./styles/app.css";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 

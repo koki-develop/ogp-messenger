@@ -1,9 +1,9 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import React, { useCallback, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { FaCheck, FaFacebook, FaRegCopy, FaTwitter } from "react-icons/fa";
+import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 
 const cloudinaryConfig = {
   cloudName: "koki-develop",
