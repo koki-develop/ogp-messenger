@@ -68,7 +68,24 @@ export const loader: LoaderFunction = async ({ request }) => {
 const Index = () => {
   const { text } = useLoaderData<{ text: string | null }>();
 
-  return <div>text: {JSON.stringify(text)}</div>;
+  return (
+    <div className="relative min-h-screen pb-24">
+      <div className="bg-white border-b-2 border-gray-100 mb-4 flex justify-center py-2 px-6">
+        <div className="flex w-full sm:w-10/12">
+          <img
+            className="mr-1"
+            src="/logo64.png"
+            alt="Logo"
+            height={24}
+            width={24}
+          />
+          <h1 className="font-bold" style={{ fontFamily: '"Sawarabi Gothic"' }}>
+            OGP Messenger
+          </h1>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Index;
