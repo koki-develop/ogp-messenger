@@ -9,16 +9,13 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0 --ext .js,.ts,.tsx .",
-
     "build": "run-p build:*",
     "build:remix": "remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-
     "dev": "yarn run build && run-p dev:*",
     "dev:remix": "remix watch",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch",
-
     "deploy": "yarn run build && wrangler publish",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js"
   },
@@ -44,10 +41,12 @@
     "@typescript-eslint/parser": "^5.23.0",
     "autoprefixer": "^10.4.7",
     "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.29.4",
     "miniflare": "^2.1.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.13",
+    "prettier": "^2.6.2",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.5.5"
   }
