@@ -1,6 +1,7 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import React, { useCallback, useState } from "react";
 
 const cloudinaryConfig = {
   cloudName: "koki-develop",
@@ -66,10 +67,35 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const Index = () => {
-  const { text } = useLoaderData<{ text: string | null }>();
+  const { text: defaultText } = useLoaderData<{ text: string | null }>();
+
+  const navigate = useNavigate();
+
+  const [text, setText] = useState<string>(defaultText ?? "");
+
+  const handleChangeText = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const text = e.currentTarget.value
+        .replace(/\r?\n*/g, "")
+        .substring(0, 255);
+      setText(text);
+
+      const trimmedText = text.trim();
+      if (trimmedText === "") {
+        navigate({ search: "" }, { replace: true });
+      } else {
+        navigate(
+          { search: `text=${encodeURIComponent(text)}` },
+          { replace: true }
+        );
+      }
+    },
+    [navigate]
+  );
 
   return (
     <div className="relative min-h-screen pb-24">
+      {/* ヘッダー */}
       <div className="bg-white border-b-2 border-gray-100 mb-4 flex justify-center py-2 px-6">
         <div className="flex w-full sm:w-10/12">
           <img
@@ -82,6 +108,21 @@ const Index = () => {
           <h1 className="font-bold" style={{ fontFamily: '"Sawarabi Gothic"' }}>
             OGP Messenger
           </h1>
+        </div>
+      </div>
+
+      {/* メイン */}
+      <div className="flex justify-center px-6">
+        <div className="flex flex-col w-full sm:w-10/12">
+          <div className="mb-2">
+            <textarea
+              rows={3}
+              className="w-full resize-none shadow rounded border p-2 outline-none"
+              placeholder="テキスト"
+              value={text}
+              onChange={handleChangeText}
+            />
+          </div>
         </div>
       </div>
     </div>
