@@ -1,7 +1,8 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate } from "@remix-run/react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { FaFacebook, FaTwitter } from "react-icons/fa";
 
 const cloudinaryConfig = {
   cloudName: "koki-develop",
@@ -63,15 +64,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const text = url.searchParams.get("text");
 
-  return json({ text });
+  return json({ currentUrl: url.href, text });
 };
 
 const Index = () => {
-  const { text: defaultText } = useLoaderData<{ text: string | null }>();
+  const { currentUrl, text: defaultText } = useLoaderData<{
+    currentUrl: string;
+    text: string | null;
+  }>();
 
   const navigate = useNavigate();
 
   const [text, setText] = useState<string>(defaultText ?? "");
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    buildOgpImageUrl(defaultText)
+  );
 
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -92,6 +99,22 @@ const Index = () => {
     },
     [navigate]
   );
+
+  useEffect(() => {
+    const trimmedText = text.trim();
+    if (trimmedText === "") {
+      setImageUrl(null);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setImageUrl(buildOgpImageUrl(trimmedText));
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [text]);
 
   return (
     <div className="relative min-h-screen pb-24">
@@ -123,6 +146,41 @@ const Index = () => {
               onChange={handleChangeText}
             />
           </div>
+          {imageUrl && (
+            <>
+              <div className="mb-2">
+                <a
+                  href={`https://twitter.com/share?url=${encodeURIComponent(
+                    currentUrl
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="transition inline-block bg-twitter-main py-2 px-4 hover:bg-twitter-dark text-white font-semibold rounded shadow mr-2 mb-2 border border-twitter-main"
+                >
+                  <span className="flex items-center">
+                    <FaTwitter className="text-lg mr-2" />
+                    Twitter
+                  </span>
+                </a>
+                <a
+                  href={`https://www.facebook.com/share.php?u=${encodeURIComponent(
+                    currentUrl
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="transition inline-block bg-facebook-main py-2 px-4 hover:bg-facebook-dark text-white font-semibold rounded shadow mr-2 mb-2 border border-facebook-main"
+                >
+                  <span className="flex items-center">
+                    <FaFacebook className="text-lg mr-2" />
+                    Facebook
+                  </span>
+                </a>
+              </div>
+              <div>
+                <img className="w-full" src={imageUrl} alt={text} />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
