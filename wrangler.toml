@@ -1,4 +1,4 @@
-name = "remix-cloudflare-workers"
+name = "ogp-messenger"
 type = "javascript"
 
 zone_id = ""
