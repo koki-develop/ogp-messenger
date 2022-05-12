@@ -8,6 +8,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "@remix-run/eslint-config",
+    "prettier"
   ],
   parserOptions: {
     ecmaFeatures: {
