@@ -6,11 +6,14 @@
   "sideEffects": false,
   "main": "build/index.js",
   "scripts": {
-    "build": "remix build",
-    "deploy": "yarn run build && wrangler publish",
-    "dev:remix": "remix watch",
-    "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch",
+    "build": "run-p build:*",
+    "build:remix": "remix build",
+    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "dev": "remix build && run-p dev:*",
+    "dev:remix": "remix watch",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch",
+    "deploy": "yarn run build && wrangler publish",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js"
   },
   "dependencies": {
