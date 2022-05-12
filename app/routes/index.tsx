@@ -3,28 +3,8 @@ import { useLoaderData, useNavigate } from "@remix-run/react";
 import React, { useCallback, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { FaCheck, FaFacebook, FaRegCopy, FaTwitter } from "react-icons/fa";
+import { buildOgpImageUrl } from "~/lib/ogp";
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
-
-const cloudinaryConfig = {
-  cloudName: "koki-develop",
-  cardId: "OGP Messenger/card",
-  fontId: "Sawarabi Gothic",
-};
-
-const buildOgpImageUrl = (text: string | null): string | null => {
-  if (!text) return null;
-  const trimmedText = text.trim();
-  if (trimmedText === "") return null;
-
-  const { cloudName, cardId, fontId } = cloudinaryConfig;
-  return `https://res.cloudinary.com/${encodeURIComponent(
-    cloudName
-  )}/image/upload/c_fit,w_1000,h_480,l_text:${encodeURIComponent(
-    fontId
-  )}_56:${encodeURIComponent(
-    encodeURIComponent(trimmedText)
-  )}/fl_layer_apply/v1/${encodeURIComponent(cardId)}`;
-};
 
 export const meta: MetaFunction = ({ data }) => {
   const { url, text } = data;
@@ -61,18 +41,20 @@ export const meta: MetaFunction = ({ data }) => {
   };
 };
 
+type LoaderData = {
+  currentUrl: string;
+  text: string | null;
+};
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const text = url.searchParams.get("text");
 
-  return json({ currentUrl: url.href, text });
+  return json<LoaderData>({ currentUrl: url.href, text });
 };
 
 const Index = () => {
-  const { currentUrl, text: defaultText } = useLoaderData<{
-    currentUrl: string;
-    text: string | null;
-  }>();
+  const { currentUrl, text: defaultText } = useLoaderData<LoaderData>();
 
   const navigate = useNavigate();
 
