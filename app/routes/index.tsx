@@ -2,7 +2,8 @@ import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import React, { useCallback, useEffect, useState } from "react";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { FaCheck, FaFacebook, FaRegCopy, FaTwitter } from "react-icons/fa";
 
 const cloudinaryConfig = {
   cloudName: "koki-develop",
@@ -79,6 +80,7 @@ const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(
     buildOgpImageUrl(defaultText)
   );
+  const [showCopied, setShowCopied] = useState<boolean>(false);
 
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -100,6 +102,10 @@ const Index = () => {
     [navigate]
   );
 
+  const handleCopyLink = useCallback(() => {
+    setShowCopied(true);
+  }, []);
+
   useEffect(() => {
     const trimmedText = text.trim();
     if (trimmedText === "") {
@@ -115,6 +121,16 @@ const Index = () => {
       clearTimeout(timeoutId);
     };
   }, [text]);
+
+  useEffect(() => {
+    if (!showCopied) return;
+    const timeoutId = setTimeout(() => {
+      setShowCopied(false);
+    }, 1000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [showCopied]);
 
   return (
     <div className="relative min-h-screen pb-24">
@@ -175,6 +191,23 @@ const Index = () => {
                     Facebook
                   </span>
                 </a>
+                <CopyToClipboard text={currentUrl} onCopy={handleCopyLink}>
+                  <button className="transition py-2 px-4 mb-2 shadow border rounded bg-white hover:bg-gray-200">
+                    <span className="flex items-center">
+                      {showCopied ? (
+                        <>
+                          <FaCheck className="text-lg text-green-500 mr-2" />
+                          コピーしました
+                        </>
+                      ) : (
+                        <>
+                          <FaRegCopy className="text-lg mr-2" />
+                          リンクをコピー
+                        </>
+                      )}
+                    </span>
+                  </button>
+                </CopyToClipboard>
               </div>
               <div>
                 <img className="w-full" src={imageUrl} alt={text} />
