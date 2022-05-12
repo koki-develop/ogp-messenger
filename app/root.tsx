@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+const App = () => {
   return (
     <html lang="ja">
       <head>
@@ -32,4 +32,6 @@ export default function App() {
       </body>
     </html>
   );
-}
+};
+
+export default App;

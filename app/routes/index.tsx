@@ -9,8 +9,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ text });
 };
 
-export default function Index() {
+const Index = () => {
   const { text } = useLoaderData<{ text: string | null }>();
 
   return <div>text: {JSON.stringify(text)}</div>;
-}
+};
+
+export default Index;
