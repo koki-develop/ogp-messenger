@@ -9,6 +9,7 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0 --ext .js,.ts,.tsx .",
+    "fmt": "yarn lint --fix && prettier --write .",
     "build": "run-p build:*",
     "build:remix": "remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
