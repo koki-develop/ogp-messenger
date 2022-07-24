@@ -11,22 +11,11 @@ export const meta: MetaFunction = ({ data }) => {
 
   const siteName = "OGP Messenger";
 
-  const baseTitle = "OGP Messenger";
-  const title = (() => {
-    if (!text) return baseTitle;
-    const trimmedText = text.trim();
-    if (trimmedText === "") return baseTitle;
-    return `${text} | ${baseTitle}`;
-  })();
-
   const description = "OGP 画像でメッセージを発信できるツール";
 
   const imageUrl = buildOgpImageUrl(text);
 
   return {
-    title,
-    "og:title": title,
-
     description,
     "og:description": description,
 
