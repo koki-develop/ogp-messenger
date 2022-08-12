@@ -15,6 +15,8 @@ jobs:
     environment:
       name: prod
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: setup
         uses: ./.github/actions/setup
 
