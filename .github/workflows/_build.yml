@@ -1,0 +1,13 @@
+name: build
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup
+        uses: ./.github/actions/setup
+      - name: build
+        run: yarn run build
