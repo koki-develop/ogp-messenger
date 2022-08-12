@@ -13,3 +13,5 @@ jobs:
         uses: ./.github/actions/setup
       - name: build
         run: yarn run build
+      - name: lint
+        run: yarn run lint
