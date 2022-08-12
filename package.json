@@ -37,7 +37,7 @@
     "@remix-run/dev": "1.4.3",
     "@remix-run/eslint-config": "1.4.3",
     "@types/react": "17.0.48",
-    "@types/react-copy-to-clipboard": "5.0.2",
+    "@types/react-copy-to-clipboard": "5.0.4",
     "@types/react-dom": "17.0.17",
     "@typescript-eslint/eslint-plugin": "5.23.0",
     "@typescript-eslint/parser": "5.23.0",
