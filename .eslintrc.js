@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: ["react", "unused-imports"],
   rules: {
+    "react/prop-types": "off",
     "unused-imports/no-unused-imports": "error",
     "import/order": [
       "error",
