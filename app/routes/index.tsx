@@ -106,7 +106,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen pb-24">
       {/* ヘッダー */}
-      <div className="bg-white border-b-2 border-gray-100 mb-4 flex justify-center py-2 px-6">
+      <div className="mb-4 flex justify-center border-b-2 border-gray-100 bg-white py-2 px-6">
         <div className="flex w-full sm:w-10/12">
           <img
             className="mr-1"
@@ -123,11 +123,11 @@ const Index = () => {
 
       {/* メイン */}
       <div className="flex justify-center px-6">
-        <div className="flex flex-col w-full sm:w-10/12">
+        <div className="flex w-full flex-col sm:w-10/12">
           <div className="mb-2">
             <textarea
               rows={3}
-              className="w-full resize-none shadow rounded border p-2 outline-none"
+              className="w-full resize-none rounded border p-2 shadow outline-none"
               placeholder="テキスト"
               value={text}
               onChange={handleChangeText}
@@ -142,10 +142,10 @@ const Index = () => {
                   )}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="transition inline-block bg-twitter-main py-2 px-4 hover:bg-twitter-dark text-white font-semibold rounded shadow mr-2 mb-2 border border-twitter-main"
+                  className="mr-2 mb-2 inline-block rounded border border-twitter-main bg-twitter-main py-2 px-4 font-semibold text-white shadow transition hover:bg-twitter-dark"
                 >
                   <span className="flex items-center">
-                    <FaTwitter className="text-lg mr-2" />
+                    <FaTwitter className="mr-2 text-lg" />
                     Twitter
                   </span>
                 </a>
@@ -155,24 +155,24 @@ const Index = () => {
                   )}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="transition inline-block bg-facebook-main py-2 px-4 hover:bg-facebook-dark text-white font-semibold rounded shadow mr-2 mb-2 border border-facebook-main"
+                  className="mr-2 mb-2 inline-block rounded border border-facebook-main bg-facebook-main py-2 px-4 font-semibold text-white shadow transition hover:bg-facebook-dark"
                 >
                   <span className="flex items-center">
-                    <FaFacebook className="text-lg mr-2" />
+                    <FaFacebook className="mr-2 text-lg" />
                     Facebook
                   </span>
                 </a>
                 <CopyToClipboard text={currentUrl} onCopy={handleCopyLink}>
-                  <button className="transition py-2 px-4 mb-2 shadow border rounded bg-white hover:bg-gray-200">
+                  <button className="mb-2 rounded border bg-white py-2 px-4 shadow transition hover:bg-gray-200">
                     <span className="flex items-center">
                       {showCopied ? (
                         <>
-                          <FaCheck className="text-lg text-green-500 mr-2" />
+                          <FaCheck className="mr-2 text-lg text-green-500" />
                           コピーしました
                         </>
                       ) : (
                         <>
-                          <FaRegCopy className="text-lg mr-2" />
+                          <FaRegCopy className="mr-2 text-lg" />
                           リンクをコピー
                         </>
                       )}
