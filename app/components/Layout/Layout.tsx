@@ -8,7 +8,7 @@ const Layout: React.FC<LayoutProps> = memo((props) => {
   const { children } = props;
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative">
       {/* ヘッダー */}
       <header className="mb-4 border-b py-2">
         <div className="container mx-auto flex px-6">
@@ -25,9 +25,20 @@ const Layout: React.FC<LayoutProps> = memo((props) => {
         </div>
       </header>
 
-      <main>
+      <main className="mb-4">
         <div className="container mx-auto px-6">{children}</div>
       </main>
+
+      <footer className="flex flex-col items-center text-sm">
+        <p className="mb-2">&copy;2022 Koki Sato</p>
+        <a
+          href="https://github.com/koki-develop/ogp-messenger"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          View on GitHub
+        </a>
+      </footer>
     </div>
   );
 });
