@@ -1,9 +1,8 @@
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate } from "@remix-run/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { FaCheck, FaRegCopy } from "react-icons/fa";
+import React, { useCallback, useMemo, useState } from "react";
 import Layout from "~/components/Layout/Layout";
+import CopyButton from "~/components/util/CopyButton";
 import OgpPreview from "~/components/util/OgpPreview";
 import ShareButton from "~/components/util/ShareButton";
 import TextArea from "~/components/util/TextArea";
@@ -56,8 +55,6 @@ const Index = () => {
     return text.trim();
   }, [text]);
 
-  const [showCopied, setShowCopied] = useState<boolean>(false);
-
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const text = e.currentTarget.value
@@ -78,20 +75,6 @@ const Index = () => {
     [navigate]
   );
 
-  const handleCopyLink = useCallback(() => {
-    setShowCopied(true);
-  }, []);
-
-  useEffect(() => {
-    if (!showCopied) return;
-    const timeoutId = setTimeout(() => {
-      setShowCopied(false);
-    }, 1000);
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [showCopied]);
-
   return (
     <Layout>
       {/* メイン */}
@@ -102,24 +85,7 @@ const Index = () => {
         <div className="mb-2">
           <ShareButton sns="twitter" url={currentUrl} />
           <ShareButton sns="facebook" url={currentUrl} />
-
-          <CopyToClipboard text={currentUrl} onCopy={handleCopyLink}>
-            <button className="mb-2 rounded border bg-white py-2 px-4 shadow transition hover:bg-gray-200">
-              <span className="flex items-center">
-                {showCopied ? (
-                  <>
-                    <FaCheck className="mr-2 text-lg text-green-500" />
-                    コピーしました
-                  </>
-                ) : (
-                  <>
-                    <FaRegCopy className="mr-2 text-lg" />
-                    リンクをコピー
-                  </>
-                )}
-              </span>
-            </button>
-          </CopyToClipboard>
+          <CopyButton text={currentUrl} />
         </div>
       )}
       <div>
