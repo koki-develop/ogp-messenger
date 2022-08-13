@@ -77,7 +77,6 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* メイン */}
       <div className="mb-2">
         <TextArea value={text} onChange={handleChangeText} />
       </div>
