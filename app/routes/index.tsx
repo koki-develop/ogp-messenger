@@ -6,6 +6,7 @@ import { FaCheck, FaRegCopy } from "react-icons/fa";
 import Layout from "~/components/Layout/Layout";
 import OgpPreview from "~/components/util/OgpPreview";
 import ShareButton from "~/components/util/ShareButton";
+import TextArea from "~/components/util/TextArea";
 import { buildOgpImageUrl } from "~/lib/ogp";
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 
@@ -95,13 +96,7 @@ const Index = () => {
     <Layout>
       {/* メイン */}
       <div className="mb-2">
-        <textarea
-          rows={3}
-          className="w-full resize-none rounded border p-2 shadow outline-none"
-          placeholder="テキスト"
-          value={text}
-          onChange={handleChangeText}
-        />
+        <TextArea value={text} onChange={handleChangeText} />
       </div>
       {trimmedText !== "" && (
         <div className="mb-2">
