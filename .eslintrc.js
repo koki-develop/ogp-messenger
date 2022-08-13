@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:import/recommended",
     "@remix-run/eslint-config",
     "prettier",
@@ -18,7 +17,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "unused-imports"],
+  plugins: ["unused-imports"],
   rules: {
     "react/prop-types": "off",
     "unused-imports/no-unused-imports": "error",
