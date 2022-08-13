@@ -1,9 +1,11 @@
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate } from "@remix-run/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { FaCheck, FaFacebook, FaRegCopy, FaTwitter } from "react-icons/fa";
+import { FaCheck, FaRegCopy } from "react-icons/fa";
 import Layout from "~/components/Layout/Layout";
+import OgpPreview from "~/components/util/OgpPreview";
+import ShareButton from "~/components/util/ShareButton";
 import { buildOgpImageUrl } from "~/lib/ogp";
 import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 
@@ -14,7 +16,7 @@ export const meta: MetaFunction = ({ data }) => {
 
   const description = "OGP 画像でメッセージを発信できるツール";
 
-  const imageUrl = buildOgpImageUrl(text);
+  const imageUrl = text && buildOgpImageUrl(text);
 
   return {
     description,
@@ -49,9 +51,10 @@ const Index = () => {
   const navigate = useNavigate();
 
   const [text, setText] = useState<string>(defaultText ?? "");
-  const [imageUrl, setImageUrl] = useState<string | null>(
-    buildOgpImageUrl(defaultText)
-  );
+  const trimmedText = useMemo(() => {
+    return text.trim();
+  }, [text]);
+
   const [showCopied, setShowCopied] = useState<boolean>(false);
 
   const handleChangeText = useCallback(
@@ -79,22 +82,6 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    const trimmedText = text.trim();
-    if (trimmedText === "") {
-      setImageUrl(null);
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setImageUrl(buildOgpImageUrl(trimmedText));
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [text]);
-
-  useEffect(() => {
     if (!showCopied) return;
     const timeoutId = setTimeout(() => {
       setShowCopied(false);
@@ -116,58 +103,33 @@ const Index = () => {
           onChange={handleChangeText}
         />
       </div>
-      {imageUrl && (
-        <>
-          <div className="mb-2">
-            <a
-              href={`https://twitter.com/share?url=${encodeURIComponent(
-                currentUrl
-              )}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mr-2 mb-2 inline-block rounded border border-twitter-main bg-twitter-main py-2 px-4 font-semibold text-white shadow transition hover:bg-twitter-dark"
-            >
+      {trimmedText !== "" && (
+        <div className="mb-2">
+          <ShareButton sns="twitter" url={currentUrl} />
+          <ShareButton sns="facebook" url={currentUrl} />
+
+          <CopyToClipboard text={currentUrl} onCopy={handleCopyLink}>
+            <button className="mb-2 rounded border bg-white py-2 px-4 shadow transition hover:bg-gray-200">
               <span className="flex items-center">
-                <FaTwitter className="mr-2 text-lg" />
-                Twitter
+                {showCopied ? (
+                  <>
+                    <FaCheck className="mr-2 text-lg text-green-500" />
+                    コピーしました
+                  </>
+                ) : (
+                  <>
+                    <FaRegCopy className="mr-2 text-lg" />
+                    リンクをコピー
+                  </>
+                )}
               </span>
-            </a>
-            <a
-              href={`https://www.facebook.com/share.php?u=${encodeURIComponent(
-                currentUrl
-              )}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mr-2 mb-2 inline-block rounded border border-facebook-main bg-facebook-main py-2 px-4 font-semibold text-white shadow transition hover:bg-facebook-dark"
-            >
-              <span className="flex items-center">
-                <FaFacebook className="mr-2 text-lg" />
-                Facebook
-              </span>
-            </a>
-            <CopyToClipboard text={currentUrl} onCopy={handleCopyLink}>
-              <button className="mb-2 rounded border bg-white py-2 px-4 shadow transition hover:bg-gray-200">
-                <span className="flex items-center">
-                  {showCopied ? (
-                    <>
-                      <FaCheck className="mr-2 text-lg text-green-500" />
-                      コピーしました
-                    </>
-                  ) : (
-                    <>
-                      <FaRegCopy className="mr-2 text-lg" />
-                      リンクをコピー
-                    </>
-                  )}
-                </span>
-              </button>
-            </CopyToClipboard>
-          </div>
-          <div>
-            <img className="w-full" src={imageUrl} alt={text} />
-          </div>
-        </>
+            </button>
+          </CopyToClipboard>
+        </div>
       )}
+      <div>
+        <OgpPreview text={trimmedText} />
+      </div>
     </Layout>
   );
 };
