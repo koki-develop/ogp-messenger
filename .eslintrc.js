@@ -39,13 +39,4 @@ module.exports = {
       },
     ],
   },
-  overrides: [
-    {
-      files: ["*.ts", "*.tsx"],
-      extends: ["plugin:@typescript-eslint/recommended"],
-      plugins: ["@typescript-eslint"],
-      parser: "@typescript-eslint/parser",
-      rules: {},
-    },
-  ],
 };
