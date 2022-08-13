@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { buildOgpImageUrl } from "~/lib/ogp";
 
 export type OgpPreviewProps = {
@@ -8,8 +8,18 @@ export type OgpPreviewProps = {
 const OgpPreview: React.FC<OgpPreviewProps> = memo((props) => {
   const { text } = props;
 
-  const imageSrc = useMemo(() => {
-    return buildOgpImageUrl(text);
+  const [imageSrc, setImageSrc] = useState<string | null>(
+    buildOgpImageUrl(text)
+  );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setImageSrc(buildOgpImageUrl(text));
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [text]);
 
   if (imageSrc == null) {
