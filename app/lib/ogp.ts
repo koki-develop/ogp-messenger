@@ -4,8 +4,7 @@ const cloudinaryConfig = {
   fontId: "Sawarabi Gothic",
 };
 
-export const buildOgpImageUrl = (text: string | null): string | null => {
-  if (!text) return null;
+export const buildOgpImageUrl = (text: string): string | null => {
   const trimmedText = text.trim();
   if (trimmedText === "") return null;
 
