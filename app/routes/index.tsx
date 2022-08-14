@@ -81,15 +81,17 @@ const Index = () => {
         <TextArea value={text} onChange={handleChangeText} />
       </div>
       {trimmedText !== "" && (
-        <div className="mb-2">
-          <ShareButton sns="twitter" url={currentUrl} />
-          <ShareButton sns="facebook" url={currentUrl} />
-          <CopyButton text={currentUrl} />
-        </div>
+        <>
+          <div className="mb-2">
+            <ShareButton sns="twitter" url={currentUrl} />
+            <ShareButton sns="facebook" url={currentUrl} />
+            <CopyButton text={currentUrl} />
+          </div>
+          <div>
+            <OgpPreview text={trimmedText} />
+          </div>
+        </>
       )}
-      <div>
-        <OgpPreview text={trimmedText} />
-      </div>
     </Layout>
   );
 };
