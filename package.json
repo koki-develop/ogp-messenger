@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "3.16.0",
-    "@cloudflare/wrangler": "1.19.12",
+    "@cloudflare/wrangler": "1.19.13",
     "@remix-run/dev": "1.7.0",
     "@remix-run/eslint-config": "1.7.0",
     "@types/react": "17.0.49",
